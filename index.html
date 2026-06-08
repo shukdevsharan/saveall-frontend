@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SaveAll – Download Videos from Instagram YouTube Facebook Pinterest Free</title>
+<meta name="description" content="Download videos from Instagram, YouTube, Facebook, Pinterest, Twitter for free. No login, no app, instant MP4 download.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080810;--s1:#0f0f1a;--s2:#17172a;--s3:#1e1e35;
+  --border:rgba(255,255,255,0.06);--text:#eeeef8;--muted:#6b6b8a;
+  --green:#00e676;--red:#ff4757;
+  --ig:#e1306c;--yt:#ff0000;--fb:#1877f2;--pin:#e60023;--tw:#1da1f2
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 20px}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-bottom:1px solid var(--border)}
+.logo{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:24px;letter-spacing:-1px;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text)}
+.logo-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--ig),#f77737,#fcaf45);display:flex;align-items:center;justify-content:center;font-size:17px}
+.logo em{font-style:normal;color:var(--muted);font-weight:700}
+.nav-tag{font-size:11px;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--s2);color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* HERO */
+.hero{text-align:center;padding:64px 0 48px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--border);padding:7px 18px;border-radius:30px;font-size:13px;color:var(--muted);margin-bottom:30px}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.5)}50%{box-shadow:0 0 0 8px rgba(0,230,118,0)}}
+h1{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:clamp(38px,6.5vw,72px);line-height:1.0;letter-spacing:-3px;margin-bottom:20px}
+h1 .brand{background:linear-gradient(90deg,#f9ca24,#f0932b,var(--ig),#6c5ce7);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:rainbow 5s linear infinite}
+@keyframes rainbow{0%{background-position:0%}100%{background-position:300%}}
+.hero p{color:var(--muted);font-size:17px;max-width:500px;margin:0 auto 44px;line-height:1.7}
+.platforms{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:44px;flex-wrap:wrap}
+.plat-pill{display:flex;align-items:center;gap:7px;background:var(--s2);border:1px solid var(--border);padding:7px 14px;border-radius:30px;font-size:13px;font-weight:500;white-space:nowrap}
+.pill-ig{color:var(--ig)}.pill-yt{color:var(--yt)}.pill-fb{color:var(--fb)}.pill-pin{color:var(--pin)}.pill-tw{color:var(--tw)}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:24px;padding:36px;box-shadow:0 0 100px rgba(225,48,108,.08),0 40px 100px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ig),#f77737,#fcaf45,transparent)}
+.input-wrap{position:relative;margin-bottom:14px;display:flex;gap:10px}
+.url-input{flex:1;background:var(--s2);border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;font-family:'Instrument Sans',sans-serif;font-size:15px;color:var(--text);outline:none;transition:border-color .2s;min-width:0}
+.url-input::placeholder{color:var(--muted)}
+.url-input:focus{border-color:rgba(225,48,108,.5)}
+.btn-dl{background:linear-gradient(135deg,var(--ig),#f77737);color:#fff;border:none;padding:0 24px;border-radius:14px;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:15px;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(225,48,108,.4);white-space:nowrap;flex-shrink:0;min-height:58px;transition:opacity .2s}
+.btn-dl:disabled{opacity:.5;cursor:not-allowed}
+.helper-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.btn-paste{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 13px;border-radius:7px;font-size:12px;cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:border-color .2s}
+.btn-paste:hover{border-color:var(--ig);color:var(--text)}
+.supported{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.sup-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid}
+.sup-ig{color:var(--ig);border-color:rgba(225,48,108,.25);background:rgba(225,48,108,.07)}
+.sup-yt{color:var(--yt);border-color:rgba(255,0,0,.25);background:rgba(255,0,0,.07)}
+.sup-fb{color:var(--fb);border-color:rgba(24,119,242,.25);background:rgba(24,119,242,.07)}
+.sup-pin{color:var(--pin);border-color:rgba(230,0,35,.25);background:rgba(230,0,35,.07)}
+.sup-tw{color:var(--tw);border-color:rgba(29,161,242,.25);background:rgba(29,161,242,.07)}
+
+/* RESULT */
+#result{margin-top:0}
+.result-box{background:var(--s2);border:1px solid rgba(0,230,118,.2);border-radius:16px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
+.res-left{display:flex;align-items:center;gap:14px}
+.thumb{width:70px;height:70px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.thumb-ph{width:70px;height:70px;border-radius:10px;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.res-plat{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.res-title{font-weight:500;font-size:15px;max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res-meta{font-size:13px;color:var(--muted);margin-top:3px}
+.btn-save{background:var(--green);color:#080810;border:none;padding:13px 24px;border-radius:12px;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,230,118,.3);white-space:nowrap;flex-shrink:0}
+.err-box{background:rgba(255,71,87,.07);border:1px solid rgba(255,71,87,.2);border-radius:13px;padding:16px 20px;color:var(--red);font-size:14px;line-height:1.6;margin-top:20px}
+.info-box{background:rgba(29,161,242,.07);border:1px solid rgba(29,161,242,.2);border-radius:13px;padding:14px 20px;color:var(--tw);font-size:13px;line-height:1.6;margin-top:20px}
+.spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SECTIONS */
+.section{margin:70px 0}
+.sec-head{text-align:center;margin-bottom:32px}
+.sec-head h2{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:28px;letter-spacing:-1px;margin-bottom:8px}
+.sec-head p{color:var(--muted);font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:28px}
+.step-n{font-size:11px;font-weight:900;color:var(--ig);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.step-icon{font-size:32px;margin-bottom:14px}
+.step h3{font-family:'Cabinet Grotesk',sans-serif;font-size:16px;font-weight:800;margin-bottom:8px}
+.step p{font-size:13px;color:var(--muted);line-height:1.7}
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.feat{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:22px;display:flex;align-items:flex-start;gap:14px}
+.feat-icon{font-size:22px;width:48px;height:48px;background:var(--s2);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feat h4{font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800;margin-bottom:5px}
+.feat p{font-size:13px;color:var(--muted);line-height:1.6}
+.faq{display:flex;flex-direction:column;gap:10px}
+.faq-item{background:var(--s1);border:1px solid var(--border);border-radius:15px;overflow:hidden}
+.faq-item.open{border-color:rgba(225,48,108,.25)}
+.faq-q{width:100%;background:none;border:none;color:var(--text);font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:700;padding:20px 24px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.fq-arr{font-size:18px;transition:transform .3s;color:var(--muted)}
+.faq-item.open .fq-arr{transform:rotate(180deg);color:var(--ig)}
+.faq-a{display:none;padding:0 24px 20px;font-size:14px;color:var(--muted);line-height:1.8}
+.faq-item.open .faq-a{display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:20px;overflow:hidden;margin:60px 0;border:1px solid var(--border)}
+.stat{background:var(--s1);padding:30px;text-align:center}
+.stat-num{font-family:'Cabinet Grotesk',sans-serif;font-size:36px;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,var(--ig),#f77737);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:13px;color:var(--muted);margin-top:4px}
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--muted);font-size:13px;line-height:2}
+footer a{color:var(--muted);text-decoration:underline}
+
+@media(max-width:640px){
+  .steps,.feat-grid,.stats{grid-template-columns:1fr}
+  .input-wrap{flex-direction:column}
+  .btn-dl{justify-content:center;min-height:52px}
+  h1{letter-spacing:-1.5px}
+  .card{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <a class="logo" href="/"><div class="logo-icon">⬇</div><span>Save<em>All</em></span></a>
+  <div class="nav-tag">Free · No Login</div>
+</nav>
+
+<section class="hero">
+  <div class="badge"><span class="badge-dot"></span> 5 Platforms · Works Right Now</div>
+  <h1>Download Videos<br>from <span class="brand">Anywhere</span></h1>
+  <p>Instagram, YouTube, Facebook, Pinterest, Twitter — paste any link and save the video as MP4. Free forever, no account needed.</p>
+
+  <div class="platforms">
+    <div class="plat-pill pill-ig">📸 Instagram</div>
+    <div class="plat-pill pill-yt">▶ YouTube</div>
+    <div class="plat-pill pill-fb">👍 Facebook</div>
+    <div class="plat-pill pill-pin">📌 Pinterest</div>
+    <div class="plat-pill pill-tw">𝕏 Twitter</div>
+  </div>
+
+  <div class="card">
+    <div class="input-wrap">
+      <input class="url-input" id="urlInput" type="url"
+        placeholder="Paste video link — Instagram, YouTube, Facebook, Pinterest, Twitter..."
+        autocomplete="off" spellcheck="false"/>
+      <button class="btn-dl" id="dlBtn" onclick="handleDownload()">
+        ⬇ Download
+      </button>
+    </div>
+    <div class="helper-row">
+      <button class="btn-paste" onclick="pasteUrl()">📋 Paste URL</button>
+      <span>Open app → Share → Copy Link → Paste here → Download</span>
+    </div>
+    <div class="supported">
+      <span class="sup-tag sup-ig">📸 Instagram Reels</span>
+      <span class="sup-tag sup-yt">▶ YouTube Videos</span>
+      <span class="sup-tag sup-fb">👍 Facebook Videos</span>
+      <span class="sup-tag sup-pin">📌 Pinterest Videos</span>
+      <span class="sup-tag sup-tw">𝕏 Twitter/X Videos</span>
+    </div>
+    <div id="result"></div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Platforms Supported</div></div>
+  <div class="stat"><div class="stat-num">HD</div><div class="stat-label">Best Quality MP4</div></div>
+  <div class="stat"><div class="stat-num">₹0</div><div class="stat-label">Always Free</div></div>
+</div>
+
+<div class="section">
+  <div class="sec-head"><h2>How It Works</h2><p>Three simple steps, under 30 seconds</p></div>
+  <div class="steps">
+    <div class="step"><div class="step-n">Step 01</div><div class="step-icon">📱</div><h3>Copy the Link</h3><p>Open Instagram, YouTube, Facebook or Pinterest. Tap Share → Copy Link on any video.</p></div>
+    <div class="step"><div class="step-n">Step 02</div><div class="step-icon">🔗</div><h3>Paste Here</h3><p>Paste the link in the box above and tap the Download button.</p></div>
+    <div class="step"><div class="step-n">Step 03</div><div class="step-icon">💾</div><h3>Save to Device</h3><p>Tap the green Save MP4 button. Video downloads to your phone or PC instantly.</p></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-head"><h2>Why SaveAll?</h2><p>Simple, fast, and genuinely free</p></div>
+  <div class="feat-grid">
+    <div class="feat"><div class="feat-icon">⚡</div><div><h4>Blazing Fast</h4><p>Videos are fetched in seconds. No waiting, no queue.</p></div></div>
+    <div class="feat"><div class="feat-icon">🔒</div><div><h4>No Login Ever</h4><p>We never ask for your passwords or account access.</p></div></div>
+    <div class="feat"><div class="feat-icon">📹</div><div><h4>HD Quality</h4><p>Always fetches the highest resolution available.</p></div></div>
+    <div class="feat"><div class="feat-icon">📱</div><div><h4>Works on Mobile</h4><p>Perfectly usable on Android and iPhone browsers.</p></div></div>
+    <div class="feat"><div class="feat-icon">🚫</div><div><h4>Zero Watermarks</h4><p>Clean original video, nothing added on top.</p></div></div>
+    <div class="feat"><div class="feat-icon">💰</div><div><h4>Free Forever</h4><p>No subscriptions, no hidden charges. Always free.</p></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-head"><h2>FAQ</h2><p>Quick answers to common questions</p></div>
+  <div class="faq">
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Which platforms are supported? <span class="fq-arr">⌄</span></button><div class="faq-a">Instagram (Reels, Posts, IGTV), YouTube (Videos, Shorts), Facebook (Videos, Reels), Pinterest (Video Pins), and Twitter/X (Videos).</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Why doesn't it work for some videos? <span class="fq-arr">⌄</span></button><div class="faq-a">Only public videos work. Private accounts and age-restricted YouTube videos cannot be downloaded.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Why is it slow sometimes? <span class="fq-arr">⌄</span></button><div class="faq-a">The free server sleeps after 15 minutes of inactivity. The first request takes ~30 seconds to wake up. After that it's fast.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What format does it download in? <span class="fq-arr">⌄</span></button><div class="faq-a">MP4 format — works on all devices including Android, iPhone, Windows PC and Mac.</div></div>
+  </div>
+</div>
+
+<footer>
+  SaveAll is not affiliated with Instagram, YouTube, Facebook, Pinterest, Twitter, Meta or Google.<br>
+  Only download public content. Respect creators and copyright laws.<br>
+  <a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · Made with ❤️ in India
+</footer>
+</div>
+
+<script>
+// ✅ FIXED: single correct backend URL (no trailing slash)
+const BACKEND_URL = 'https://saveall-backend.onrender.com';
+
+const COLORS = {
+  Instagram: '#e1306c', YouTube: '#ff0000',
+  Facebook: '#1877f2', Pinterest: '#e60023', 'Twitter/X': '#1da1f2'
+};
+const EMOJI = {
+  Instagram: '📸', YouTube: '▶️',
+  Facebook: '👍', Pinterest: '📌', 'Twitter/X': '𝕏'
+};
+
+async function pasteUrl() {
+  try {
+    document.getElementById('urlInput').value = await navigator.clipboard.readText();
+  } catch {
+    document.getElementById('urlInput').focus();
+  }
+}
+
+function setResult(html) {
+  document.getElementById('result').innerHTML = html || '';
+}
+
+function isSupported(url) {
+  return /(instagram\.com|youtube\.com|youtu\.be|facebook\.com|fb\.watch|pinterest\.(com|in)|twitter\.com|x\.com|tiktok\.com)/.test(url);
+}
+
+function fmtDuration(sec) {
+  if (!sec) return '';
+  const m = Math.floor(sec / 60), s = sec % 60 | 0;
+  return `${m}m ${s}s · `;
+}
+
+async function handleDownload() {
+  const input = document.getElementById('urlInput');
+  const btn   = document.getElementById('dlBtn');
+  const url   = input.value.trim();
+
+  if (!url) {
+    setResult(`<div class="err-box">⚠️ Please paste a video link first.</div>`);
+    return;
+  }
+  if (!isSupported(url)) {
+    setResult(`<div class="err-box">⚠️ Unsupported link. Please paste a link from Instagram, YouTube, Facebook, Pinterest, or Twitter/X.</div>`);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner"></span> Fetching...`;
+  setResult('');
+
+  try {
+    const res  = await fetch(`${BACKEND_URL}/api/download`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+
+    let data;
+    try { data = await res.json(); }
+    catch { throw new Error('Server returned an unexpected response. It may still be waking up — please try again in 30 seconds.'); }
+
+    if (!res.ok || !data.downloadUrl) {
+      throw new Error(data.error || 'Could not extract video.');
+    }
+
+    const platform  = data.platform || 'Video';
+    const color     = COLORS[platform] || '#fff';
+    const emoji     = EMOJI[platform]  || '🎬';
+    const title     = (data.title || `${platform} Video`).slice(0, 65);
+    const dur       = fmtDuration(data.duration);
+    const by        = data.uploader ? `by ${data.uploader} · ` : '';
+
+    // Build the full download URL (proxy paths are relative, need backend prefix)
+    let dlUrl = data.downloadUrl;
+    if (dlUrl.startsWith('/api/proxy')) dlUrl = BACKEND_URL + dlUrl;
+
+    const thumbHtml = data.thumbnail
+      ? `<img class="thumb" src="${data.thumbnail}" alt="thumb" onerror="this.outerHTML='<div class=thumb-ph>${emoji}</div>'">`
+      : `<div class="thumb-ph">${emoji}</div>`;
+
+    setResult(`
+      <div class="result-box">
+        <div class="res-left">
+          ${thumbHtml}
+          <div>
+            <div class="res-plat" style="color:${color}">${platform}</div>
+            <div class="res-title" title="${title}">${title}</div>
+            <div class="res-meta">${by}${dur}MP4 · Ready to save</div>
+          </div>
+        </div>
+        <a class="btn-save" href="${dlUrl}" download="${data.filename || 'saveall_video.mp4'}" target="_blank">
+          ⬇ Save MP4
+        </a>
+      </div>
+      <div class="info-box">💡 Tap <strong>Save MP4</strong>. If the video opens in your browser instead of downloading, long-press it and choose <em>Save video</em> (mobile) or right-click → <em>Save as</em> (desktop).</div>
+    `);
+
+  } catch (err) {
+    let msg = err.message || 'Unknown error.';
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+      msg = 'Cannot reach the server. It may be waking up (free tier). Please wait 30 seconds and try again.';
+    }
+    setResult(`<div class="err-box">⚠️ ${msg}</div>`);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `⬇ Download`;
+  }
+}
+
+function toggleFaq(btn) {
+  btn.closest('.faq-item').classList.toggle('open');
+}
+
+document.getElementById('urlInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleDownload();
+});
+</script>
+</body>
+</html>
