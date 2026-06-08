@@ -17,15 +17,11 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 20px}
-
-/* NAV */
 nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-bottom:1px solid var(--border)}
 .logo{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:24px;letter-spacing:-1px;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text)}
 .logo-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--ig),#f77737,#fcaf45);display:flex;align-items:center;justify-content:center;font-size:17px}
 .logo em{font-style:normal;color:var(--muted);font-weight:700}
 .nav-tag{font-size:11px;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--s2);color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-
-/* HERO */
 .hero{text-align:center;padding:64px 0 48px}
 .badge{display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--border);padding:7px 18px;border-radius:30px;font-size:13px;color:var(--muted);margin-bottom:30px}
 .badge-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
@@ -37,8 +33,6 @@ h1 .brand{background:linear-gradient(90deg,#f9ca24,#f0932b,var(--ig),#6c5ce7);ba
 .platforms{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:44px;flex-wrap:wrap}
 .plat-pill{display:flex;align-items:center;gap:7px;background:var(--s2);border:1px solid var(--border);padding:7px 14px;border-radius:30px;font-size:13px;font-weight:500;white-space:nowrap}
 .pill-ig{color:var(--ig)}.pill-yt{color:var(--yt)}.pill-fb{color:var(--fb)}.pill-pin{color:var(--pin)}.pill-tw{color:var(--tw)}
-
-/* CARD */
 .card{background:var(--s1);border:1px solid var(--border);border-radius:24px;padding:36px;box-shadow:0 0 100px rgba(225,48,108,.08),0 40px 100px rgba(0,0,0,.5);position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ig),#f77737,#fcaf45,transparent)}
 .input-wrap{position:relative;margin-bottom:14px;display:flex;gap:10px}
@@ -57,8 +51,6 @@ h1 .brand{background:linear-gradient(90deg,#f9ca24,#f0932b,var(--ig),#6c5ce7);ba
 .sup-fb{color:var(--fb);border-color:rgba(24,119,242,.25);background:rgba(24,119,242,.07)}
 .sup-pin{color:var(--pin);border-color:rgba(230,0,35,.25);background:rgba(230,0,35,.07)}
 .sup-tw{color:var(--tw);border-color:rgba(29,161,242,.25);background:rgba(29,161,242,.07)}
-
-/* RESULT */
 #result{margin-top:0}
 .result-box{background:var(--s2);border:1px solid rgba(0,230,118,.2);border-radius:16px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
 .res-left{display:flex;align-items:center;gap:14px}
@@ -72,8 +64,6 @@ h1 .brand{background:linear-gradient(90deg,#f9ca24,#f0932b,var(--ig),#6c5ce7);ba
 .info-box{background:rgba(29,161,242,.07);border:1px solid rgba(29,161,242,.2);border-radius:13px;padding:14px 20px;color:var(--tw);font-size:13px;line-height:1.6;margin-top:20px}
 .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* SECTIONS */
 .section{margin:70px 0}
 .sec-head{text-align:center;margin-bottom:32px}
 .sec-head h2{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:28px;letter-spacing:-1px;margin-bottom:8px}
@@ -103,7 +93,6 @@ h1 .brand{background:linear-gradient(90deg,#f9ca24,#f0932b,var(--ig),#6c5ce7);ba
 .stat-label{font-size:13px;color:var(--muted);margin-top:4px}
 footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--muted);font-size:13px;line-height:2}
 footer a{color:var(--muted);text-decoration:underline}
-
 @media(max-width:640px){
   .steps,.feat-grid,.stats{grid-template-columns:1fr}
   .input-wrap{flex-direction:column}
@@ -202,8 +191,11 @@ footer a{color:var(--muted);text-decoration:underline}
 </div>
 
 <script>
-// ✅ FIXED: single correct backend URL (no trailing slash)
-const BACKEND_URL = 'https://saveall-backend.onrender.com';
+// ✅ Multiple backends — tries each in order until one works
+const BACKENDS = [
+  'https://web-production-01c94.up.railway.app',  // Railway (primary)
+  'https://saveall-backend.onrender.com'           // Render (backup)
+];
 
 const COLORS = {
   Instagram: '#e1306c', YouTube: '#ff0000',
@@ -236,6 +228,18 @@ function fmtDuration(sec) {
   return `${m}m ${s}s · `;
 }
 
+async function tryBackend(backendUrl, url) {
+  const res = await fetch(`${backendUrl}/api/download`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url }),
+    signal: AbortSignal.timeout(30000)
+  });
+  const data = await res.json();
+  if (res.ok && data.downloadUrl) return { res, data, backendUrl };
+  throw new Error(data.error || 'Failed');
+}
+
 async function handleDownload() {
   const input = document.getElementById('urlInput');
   const btn   = document.getElementById('dlBtn');
@@ -254,21 +258,25 @@ async function handleDownload() {
   btn.innerHTML = `<span class="spinner"></span> Fetching...`;
   setResult('');
 
-  try {
-    const res  = await fetch(`${BACKEND_URL}/api/download`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url })
-    });
+  let result = null;
+  let lastError = 'All servers failed. Please try again in a moment.';
 
-    let data;
-    try { data = await res.json(); }
-    catch { throw new Error('Server returned an unexpected response. It may still be waking up — please try again in 30 seconds.'); }
-
-    if (!res.ok || !data.downloadUrl) {
-      throw new Error(data.error || 'Could not extract video.');
+  for (let i = 0; i < BACKENDS.length; i++) {
+    try {
+      if (i > 0) {
+        btn.innerHTML = `<span class="spinner"></span> Trying backup...`;
+      }
+      result = await tryBackend(BACKENDS[i], url);
+      break;
+    } catch (err) {
+      lastError = err.message || lastError;
     }
+  }
 
+  try {
+    if (!result) throw new Error(lastError);
+
+    const { data, backendUrl } = result;
     const platform  = data.platform || 'Video';
     const color     = COLORS[platform] || '#fff';
     const emoji     = EMOJI[platform]  || '🎬';
@@ -276,9 +284,8 @@ async function handleDownload() {
     const dur       = fmtDuration(data.duration);
     const by        = data.uploader ? `by ${data.uploader} · ` : '';
 
-    // Build the full download URL (proxy paths are relative, need backend prefix)
     let dlUrl = data.downloadUrl;
-    if (dlUrl.startsWith('/api/proxy')) dlUrl = BACKEND_URL + dlUrl;
+    if (dlUrl.startsWith('/api/proxy')) dlUrl = backendUrl + dlUrl;
 
     const thumbHtml = data.thumbnail
       ? `<img class="thumb" src="${data.thumbnail}" alt="thumb" onerror="this.outerHTML='<div class=thumb-ph>${emoji}</div>'">`
@@ -303,8 +310,8 @@ async function handleDownload() {
 
   } catch (err) {
     let msg = err.message || 'Unknown error.';
-    if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
-      msg = 'Cannot reach the server. It may be waking up (free tier). Please wait 30 seconds and try again.';
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('AbortError')) {
+      msg = 'Cannot reach the server. Please wait 30 seconds and try again.';
     }
     setResult(`<div class="err-box">⚠️ ${msg}</div>`);
   } finally {
